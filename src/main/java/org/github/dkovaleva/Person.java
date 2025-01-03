@@ -1,13 +1,38 @@
 package org.github.dkovaleva;
 
 public class Person {
-    public String name;
+    private String name;
     public boolean isMale;
     public String weapon;
     public int rarity;
 
+    public Person() {
+        name = "не задано";
+        System.out.println("конструктор без параметров");
+    }
+//
+//    public Person(String name) {
+//        this.name = name;
+//        System.out.println("конструктор с именем");
+//    }
 
-//    public String introduce() {
+    public Person(String name, String weapon) {
+        setName(name);
+        this.weapon = weapon;
+        rarity = 1;
+    }
+
+
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    //    public String introduce() {
 //        String text = " " + name + " c " + weapon + " и редкостью " + rarity;
 //        if (isMale) {
 //            return "Парень" + text;
@@ -15,6 +40,10 @@ public class Person {
 //            return "Девушка" + text;
 //        }
 //    }
+
+    public void rename(String name) {
+        this.name = name;
+    }
 
     public String introduce() {
         String sex = "Девушка";

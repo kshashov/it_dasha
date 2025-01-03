@@ -1,6 +1,8 @@
-package org.github.dkovaleva;
+package org.github.dkovaleva.sub;
 
-public class Genshin {
+import org.github.dkovaleva.Person;
+
+public class GenshinCopy {
     public static void main(String[] args) {
         Person nahida = new Person();
         nahida.setName("Нахида");
@@ -20,9 +22,7 @@ public class Genshin {
         hydroDed.isMale = true;
 //        hydroDed.rarity = 5;
 
-//        nahida.rename("хуида");
-
-        System.out.println(hydroDed.getName());
+        nahida.rename("хуида");
 
         System.out.println(nahida.introduce());
         System.out.println(kuki.introduce());
