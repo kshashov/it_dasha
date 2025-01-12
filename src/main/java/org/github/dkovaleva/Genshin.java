@@ -4,6 +4,7 @@ public class Genshin {
     public static void main(String[] args) {
         Person nahida = new Person();
         nahida.setName("Нахида");
+        System.out.println(nahida.introduce());
         nahida.isMale = false;
         nahida.weapon = "Книга";
         nahida.rarity = 5;
