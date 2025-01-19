@@ -1,4 +1,4 @@
-package org.github.dkovaleva.GamesAndDemons;
+package org.github.dkovaleva.shop;
 
 public class Product {
     private String name;
