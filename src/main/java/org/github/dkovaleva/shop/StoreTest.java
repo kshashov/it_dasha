@@ -1,7 +1,6 @@
 package org.github.dkovaleva.shop;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class StoreTest {
     public static void main(String[] args) {
@@ -32,7 +31,10 @@ public class StoreTest {
 //        aurora.getProducts().add(pants);
 //        aurora.getProducts().add(shirt);
 
+
         ArrayList<Product> auroraProducts = aurora.getProducts();
+//        auroraProducts.add(skirt);
+
 //        aurora.addProduct(skirt);
         aurora.addProduct(skirt);
         aurora.addProduct(pants);
