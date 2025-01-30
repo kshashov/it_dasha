@@ -10,8 +10,7 @@ public class YandexStore {
         System.out.println(nya.getName());
         nya.setName("бля");
         nya.setTime(1);
-        System.out.println(nya.getTime());
-        System.out.println(nya.getName());
+        System.out.println(nya.getTime() + " " + nya.getName());
         Song pi = new Song("Пи", 3);
         Song sya = new Song("Ся", 0.14);
 
