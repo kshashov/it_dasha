@@ -8,6 +8,10 @@ public class Cat extends Animal {
         this.name = name;
     }
 
+    public void jump() {
+        System.out.println("Прыг");
+    }
+
     @Override
     public void introduce() {
         super.introduce();
