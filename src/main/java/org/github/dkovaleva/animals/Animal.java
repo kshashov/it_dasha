@@ -3,6 +3,13 @@ package org.github.dkovaleva.animals;
 public abstract class Animal {
     protected String color;
 
+    public Animal() {
+    }
+
+    public Animal(String color) {
+        this.color = color;
+    }
+
     public void introduce() {
         System.out.println("Махаю");
     }
