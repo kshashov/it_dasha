@@ -1,5 +1,9 @@
 package org.github.dkovaleva.animals;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+
 public class Zoo {
     public static void main(String[] args) {
 //        Animal hueta = new Animal();
@@ -32,7 +36,7 @@ public class Zoo {
         bob = new Fish(15);
         bob = chaya;
 
-        Animal chika = new Cat("", "");
+        Animal chika = new Cat("Пипа", "белый");
         Cat chikaCat = (Cat) chika;
         chaya = (Cat) chika; // чая и чика это один объект. объект один а ссылки две
         ((Cat) chika).jump();
@@ -41,7 +45,47 @@ public class Zoo {
 //        System.out.println(chaya instanceof Fish);
 
         Animal b = new Fish(5);
-        ((Cat) b).jump();
+//        ((Cat) b).jump();
+
+        hello(chaya);
+        hello(a);
+
+        ArrayList<Animal> animals = new ArrayList<>();
+        animals.add(chaya);
+        animals.add(new Cat("Бобик", "черный"));
+        animals.add(a);
+
+        for (Animal animal : animals) {
+            System.out.println(animal.introduce2());
+        }
+
+        List<Cat> cats = new ArrayList<>();
+        for (Animal animal : animals) {
+            if (animal instanceof Cat) {
+                cats.add((Cat) animal);
+            }
+        }
+
+        HashSet<Animal> uniqueAnimals = new HashSet<>();
+        uniqueAnimals.add(chaya);
+        uniqueAnimals.add(chikaCat);
+        uniqueAnimals.add(chika);
+        uniqueAnimals.add(new Cat("Бобик", "черный"));
+        uniqueAnimals.add(a);
+
+
+        ArrayList<Cat> df = new ArrayList<>();
+        df.add((Cat) chika);
+    }
+
+    public static void hello(Animal animal) {
+        if (animal instanceof Cat) {
+            Cat cat = (Cat) animal;
+            System.out.println("привет котик " + cat.getName());
+        } else if (animal instanceof Fish) {
+            System.out.println("привет рыбка");
+        }
+//        System.out.println("HELLO, " + animal.getClass().getSimpleName());
 
     }
 }
