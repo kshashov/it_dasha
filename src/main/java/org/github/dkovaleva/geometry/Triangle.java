@@ -1,6 +1,5 @@
 package org.github.dkovaleva.geometry;
 
-import static java.lang.Math.sqrt;
 
 public class Triangle extends Figure {
     private int a;
@@ -8,6 +7,10 @@ public class Triangle extends Figure {
     private int c;
 //    private double p = ((a+b+c)/2);
 
+    public Triangle() {
+    }
+
+    ;
     public Triangle(int a, int b, int c) {
         this.a = a;
         this.b = b;
@@ -29,7 +32,7 @@ public class Triangle extends Figure {
     @Override
     public double square() {
         double p = ((a + b + c) / 2);
-        double sq = sqrt((p * (p - a) * (p - b) * (p - c)));
+        double sq = Math.sqrt((p * (p - a) * (p - b) * (p - c)));
         return sq;
     }
 

@@ -1,7 +1,6 @@
 package org.github.dkovaleva.geometry;
 
 public abstract class Figure {
-    private String name;
     public static double pi = 3.14;
 
 
@@ -9,10 +8,6 @@ public abstract class Figure {
 //        this.name = name;
 //    }
 
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public abstract double square();
 
