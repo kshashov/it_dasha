@@ -9,6 +9,9 @@ public interface Animal {
         return "Машу";
     }
 
+
+    void move();
+
 //    public static void staticMethod() {
 //
 //    }
