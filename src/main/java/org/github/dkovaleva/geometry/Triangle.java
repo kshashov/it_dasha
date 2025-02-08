@@ -31,7 +31,7 @@ public class Triangle extends Figure {
 
     @Override
     public double square() {
-        double p = ((a + b + c) / 2);
+        double p = ((a + b + c) * 1.0 / 2);
         double sq = Math.sqrt((p * (p - a) * (p - b) * (p - c)));
         return sq;
     }

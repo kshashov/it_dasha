@@ -10,6 +10,7 @@ public class EquilateralTriangle extends Triangle {
     }
 
     public void setA(int a) {
+        super.setA(a);
         this.a = a;
     }
 
