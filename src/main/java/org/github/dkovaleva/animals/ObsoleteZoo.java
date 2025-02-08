@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-public class Zoo {
+public class ObsoleteZoo {
     public static void main(String[] args) {
 //        Animal hueta = new Animal();
 
@@ -29,14 +29,14 @@ public class Zoo {
 //        }
 
         System.out.println(chaya instanceof Object);
-        System.out.println(chaya instanceof Animal);
+        System.out.println(chaya instanceof ColoredAnimal);
         System.out.println(chaya instanceof Cat);
 
         Object bob = new Cat("Боб", "черный (нигга)");
         bob = new Fish(15);
         bob = chaya;
 
-        Animal chika = new Cat("Пипа", "белый");
+        ColoredAnimal chika = new Cat("Пипа", "белый");
         Cat chikaCat = (Cat) chika;
         chaya = (Cat) chika; // чая и чика это один объект. объект один а ссылки две
         ((Cat) chika).jump();
@@ -44,29 +44,29 @@ public class Zoo {
 //        System.out.println(bob);
 //        System.out.println(chaya instanceof Fish);
 
-        Animal b = new Fish(5);
+        ColoredAnimal b = new Fish(5);
 //        ((Cat) b).jump();
 
         hello(chaya);
         hello(a);
 
-        ArrayList<Animal> animals = new ArrayList<>();
+        ArrayList<ColoredAnimal> animals = new ArrayList<>();
         animals.add(chaya);
         animals.add(new Cat("Бобик", "черный"));
         animals.add(a);
 
-        for (Animal animal : animals) {
+        for (ColoredAnimal animal : animals) {
             System.out.println(animal.introduce2());
         }
 
         List<Cat> cats = new ArrayList<>();
-        for (Animal animal : animals) {
+        for (ColoredAnimal animal : animals) {
             if (animal instanceof Cat) {
                 cats.add((Cat) animal);
             }
         }
 
-        HashSet<Animal> uniqueAnimals = new HashSet<>();
+        HashSet<ColoredAnimal> uniqueAnimals = new HashSet<>();
         uniqueAnimals.add(chaya);
         uniqueAnimals.add(chikaCat);
         uniqueAnimals.add(chika);
@@ -78,7 +78,7 @@ public class Zoo {
         df.add((Cat) chika);
     }
 
-    public static void hello(Animal animal) {
+    public static void hello(ColoredAnimal animal) {
         if (animal instanceof Cat) {
             Cat cat = (Cat) animal;
             System.out.println("привет котик " + cat.getName());

@@ -1,24 +1,15 @@
 package org.github.dkovaleva.animals;
 
-public abstract class Animal {
-    protected String color;
+public interface Animal {
+    public static int s = 0;
 
-    public Animal() {
-    }
+    public void introduce();
 
-    public Animal(String color) {
-        this.color = color;
-    }
-
-    public void introduce() {
-        System.out.println("Махаю");
-    }
-
-    public String introduce2() {
+    public default String introduce2() {
         return "Машу";
     }
 
-    public abstract void move();
-
-//    public abstract void sex(Animal animal);
+//    public static void staticMethod() {
+//
+//    }
 }

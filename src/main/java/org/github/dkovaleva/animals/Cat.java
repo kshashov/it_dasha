@@ -1,6 +1,6 @@
 package org.github.dkovaleva.animals;
 
-public class Cat extends Animal {
+public class Cat extends ColoredAnimal implements Animal, Jumpable, Home, HasName {
     private String name;
 
     public Cat(String name, String color) {
@@ -8,8 +8,14 @@ public class Cat extends Animal {
         this.name = name;
     }
 
-    public void jump() {
-        System.out.println("Прыг");
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
@@ -29,7 +35,8 @@ public class Cat extends Animal {
         System.out.println("бегаю");
     }
 
-    public String getName() {
-        return name;
+    @Override
+    public void jump() {
+        System.out.println("Прыг");
     }
 }
