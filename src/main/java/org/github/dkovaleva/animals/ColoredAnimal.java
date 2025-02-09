@@ -15,5 +15,4 @@ public abstract class ColoredAnimal implements Animal {
         System.out.println("Махаю");
     }
 
-    public abstract void move();
 }
