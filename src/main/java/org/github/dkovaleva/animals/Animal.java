@@ -9,6 +9,7 @@ public interface Animal {
         return "Машу";
     }
 
+    Body getBody();
 
     void move();
 

@@ -10,6 +10,11 @@ public class Tiger implements Animal, Wild, HasName, Jumpable, HasColor {
     }
 
     @Override
+    public Body getBody() {
+        return Body.WOOL;
+    }
+
+    @Override
     public void move() {
         System.out.println("Двигается на добычу");
     }

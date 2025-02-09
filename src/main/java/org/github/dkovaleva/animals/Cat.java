@@ -3,6 +3,7 @@ package org.github.dkovaleva.animals;
 public class Cat implements Animal, Jumpable, Home, HasName, HasColor {
     private String name;
     private String color;
+    private Body body = Body.WOOL;
 
     public Cat(String name, String color) {
         this.color = color;
@@ -29,6 +30,11 @@ public class Cat implements Animal, Jumpable, Home, HasName, HasColor {
     @Override
     public String introduce2() {
         return Animal.super.introduce2() + " котятьей лапкой цвета " + color;
+    }
+
+    @Override
+    public Body getBody() {
+        return body;
     }
 
     @Override
