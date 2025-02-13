@@ -41,5 +41,15 @@ public class Triangle extends Figure {
         return a + b + c;
     }
 
+    public int getB() {
+        return b;
+    }
 
+    public int getA() {
+        return a;
+    }
+
+    public int getC() {
+        return c;
+    }
 }
