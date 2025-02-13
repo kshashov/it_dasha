@@ -22,8 +22,9 @@ public class Homework {
         EquilateralTriangle d = new EquilateralTriangle();
         d.setA(4);
         d.setB(5);
-        d.setC(6);
+//        d.setC(6);
         System.out.println(d.perimeter());
+        System.out.println(d.getH());
 
     }
 }

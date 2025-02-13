@@ -6,33 +6,35 @@ public class EquilateralTriangle extends Triangle {
     private double h;
 
     public EquilateralTriangle() {
+    }
 
+
+    private void megaSet(int x) {
+        super.setA(x);
+        super.setB(x);
+        super.setC(x);
+        this.h = x * Math.sqrt(3) / 2;
     }
 
     public void setA(int a) {
-        super.setA(a);
-        super.setB(a);
-        super.setC(a);
-        this.h = a * Math.sqrt(3) / 2;
+        megaSet(a);
     }
 
     public void setB(int b) {
-        super.setA(b);
-        super.setB(b);
-        super.setC(b);
-        this.h = b * Math.sqrt(3) / 2;
+        megaSet(b);
     }
 
     public void setC(int c) {
-        super.setA(c);
-        super.setB(c);
-        super.setC(c);
-        this.h = c * Math.sqrt(3) / 2;
+        megaSet(c);
     }
 
 
     public void setH(int h) {
         this.h = h;
+    }
+
+    public double getH() {
+        return h;
     }
 
     @Override
