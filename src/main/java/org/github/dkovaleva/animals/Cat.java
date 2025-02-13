@@ -1,6 +1,6 @@
 package org.github.dkovaleva.animals;
 
-public class Cat implements Animal, Jumpable, Home, HasName, HasColor {
+public class Cat implements Animal, Jumpable, Home, HasName {
     private String name;
     private String color;
     private Body body = Body.WOOL;

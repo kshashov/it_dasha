@@ -1,6 +1,6 @@
 package org.github.dkovaleva.animals;
 
-public interface Animal {
+public interface Animal extends HasColor {
     public static int s = 0;
 
     public void introduce();

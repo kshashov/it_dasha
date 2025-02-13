@@ -2,6 +2,7 @@ package org.github.dkovaleva.animals;
 
 public class Fish implements Jumpable, Wild, Animal {
     public int length;
+    private String color;
 
     public Fish(int length) {
         this.length = length;
@@ -25,5 +26,16 @@ public class Fish implements Jumpable, Wild, Animal {
     @Override
     public void jump() {
         System.out.println("Прыгаю над водой");
+    }
+
+
+    @Override
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    @Override
+    public String getColor() {
+        return color;
     }
 }
