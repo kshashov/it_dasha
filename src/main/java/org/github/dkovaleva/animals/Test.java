@@ -1,7 +1,9 @@
 package org.github.dkovaleva.animals;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Test {
 
@@ -43,12 +45,14 @@ public class Test {
         }
         objects.add(1);
         objects.add("string");
-        Object result = findByName(objects, "лея");
+        Object result = findByName2(objects, "лея1");
         if (result != null) {
             System.out.println(((HasName) result).getName());
         } else {
             System.out.println("Не нашли");
         }
+
+
     }
 
     public static HasName findByName(List<Object> objects, String name) {
@@ -62,4 +66,19 @@ public class Test {
         }
         return null;
     }
+
+    public static HasName findByName2(List<Object> objects, String name) {
+        Map<String, HasName> map = new HashMap<>();
+
+        for (Object obj : objects) {
+            if (obj instanceof HasName) {
+                String objName = ((HasName) obj).getName();
+                map.put(objName, (HasName) obj);
+            }
+        }
+
+        return map.get(name);
+
+    }
+
 }
