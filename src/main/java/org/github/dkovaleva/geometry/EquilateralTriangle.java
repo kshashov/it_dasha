@@ -28,11 +28,6 @@ public class EquilateralTriangle extends Triangle {
         megaSet(c);
     }
 
-
-    public void setH(int h) {
-        this.h = h;
-    }
-
     public double getH() {
         return h;
     }
