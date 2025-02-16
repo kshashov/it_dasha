@@ -57,4 +57,13 @@ public class Cat implements Animal, Jumpable, Home, HasName {
     public String getColor() {
         return color;
     }
+
+    @Override
+    public String toString() {
+        return "Cat{" +
+                "name='" + name + '\'' +
+                ", color='" + color + '\'' +
+                ", body=" + body +
+                '}';
+    }
 }

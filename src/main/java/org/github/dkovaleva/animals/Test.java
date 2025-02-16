@@ -11,6 +11,7 @@ public class Test {
         Cat cat1 = new Cat("барсик", "серый");
         Cat cat2 = new Cat("лея", "белая");
         Sphinx cat3 = new Sphinx("сфинкс", "черный");
+        Sphinx cat4 = new Sphinx("сфинкс", "белый");
         Fish fish1 = new Fish(14);
 
         Tiger tiger1 = new Tiger();
@@ -52,6 +53,18 @@ public class Test {
             System.out.println("Не нашли");
         }
 
+        Zoo zoo = new Zoo();
+        animals.forEach(a1 -> zoo.addAnimal(a1));
+        zoo.addAnimal(cat4);
+
+//        System.out.println(zoo.getAnimalNames());
+        for (Map.Entry<String, List<Animal>> entry : zoo.getAnimalNames().entrySet()) {
+            System.out.println(entry);
+        }
+
+        System.out.println(zoo.findAnimalByName("сфинкс"));
+
+        System.out.println(zoo.getAnimalNames().keySet());
 
     }
 
