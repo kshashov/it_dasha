@@ -55,7 +55,12 @@ public class Zoo {
     }
 
     public void killAnimal(Animal animal) {
-        animals.remove(animal);
+//        animals.remove(animal);
+
+        HasName nameanimal = (HasName) animal;
+        animalNames.remove(nameanimal.getName(), animal);
+
+//        animalNames.get(animal.getClass().getName()).remove(animal);
 //        List<Animal> list = animalNames.get(animal);
 //        list.remove(animal.getClass().getSimpleName());
 //        animalNames.remove(animal);

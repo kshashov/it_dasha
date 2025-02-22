@@ -66,11 +66,32 @@ public class Test {
 
 //        System.out.println(zoo.getAnimalNames().keySet());
 
-        zoo.killAnimal(cat2);
-        for (Map.Entry<String, List<Animal>> entry : zoo.getAnimalNames().entrySet()) {
+//        zoo.killAnimal(cat2);
+//        for (Map.Entry<String, List<Animal>> entry : zoo.getAnimalNames().entrySet()) {
+//            System.out.println(entry);
+//        }
+        Zoo zzz = new Zoo();
+
+        zzz.addAnimal(cat1);
+        zzz.addAnimal(cat2);
+        zzz.addAnimal(cat3);
+        zzz.addAnimal(cat4);
+        zzz.addAnimal(fish1);
+        zzz.addAnimal(tiger1);
+
+//        System.out.println(zzz.getLast("Cat"));
+
+        for (Map.Entry<String, List<Animal>> entry : zzz.getAnimalNames().entrySet()) {
+            zzz.killAnimal(cat2);
             System.out.println(entry);
+
+        }
+
+//        for (Animal animal: zzz){
+
         }
     }
+
 
 //    public static HasName findByName(List<Object> objects, String name) {
 //        for (Object obj : objects) {
@@ -98,4 +119,4 @@ public class Test {
 //
 //    }
 
-}
+
