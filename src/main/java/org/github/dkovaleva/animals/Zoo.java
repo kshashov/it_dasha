@@ -13,22 +13,19 @@ public class Zoo {
 
     public void addAnimal(Animal animal) {
         animals.add(animal);
+
+        String name = "";
         if (animal instanceof HasName) {
             HasName named = (HasName) animal;
-//            if (animalNames.containsKey(named.getName())) {
-//                List<Animal> list = animalNames.get(named.getName());
-//                list.add(animal);
-//            } else {
-//                List<Animal> list = new ArrayList<>();
-//                list.add(animal);
-//                animalNames.put(named.getName(), list);
-//            }
-            if (!animalNames.containsKey(named.getName())) {
-                animalNames.put(named.getName(), new ArrayList<>());
-            }
-            List<Animal> list = animalNames.get(named.getName());
-            list.add(animal);
+            name = named.getName();
         }
+
+        if (!animalNames.containsKey(name)) {
+            animalNames.put(name, new ArrayList<>());
+        }
+        List<Animal> list = animalNames.get(name);
+        list.add(animal);
+
         if (animal instanceof Fish) {
             lastAnimal.put("Fish", animal);
         } else if (animal instanceof Sphinx) {
@@ -55,17 +52,22 @@ public class Zoo {
     }
 
     public void killAnimal(Animal animal) {
-//        animals.remove(animal);
+        animals.remove(animal);
 
-        HasName nameanimal = (HasName) animal;
-        animalNames.remove(nameanimal.getName(), animal);
-
+//        HasName nameanimal = (HasName) animal;
+//        animalNames.remove(nameanimal.getName(), animal);
+//animalNames.get(nameanimal.getName()).remove(animal);
 //        animalNames.get(animal.getClass().getName()).remove(animal);
-//        List<Animal> list = animalNames.get(animal);
-//        list.remove(animal.getClass().getSimpleName());
-//        animalNames.remove(animal);
-//        HasName named = (HasName) animal;
-//        animalNames.remove(animalNames.get(named.getName()));
+//
+        String name = "";
+        if (animal instanceof HasName) {
+            name = ((HasName) animal).getName();
+        }
+        animalNames.get(name).remove(animal);
+
+//        for (List<Animal> animals: animalNames.values()) {
+//           animals.remove(animal);
+//        }
     }
 
 
