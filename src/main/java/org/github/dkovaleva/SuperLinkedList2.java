@@ -5,8 +5,7 @@ public class SuperLinkedList2 {
 
 
     public int get(int i) {
-
-
+        return 0;
     }
 
     public void set(int i, int number) {
@@ -22,7 +21,7 @@ public class SuperLinkedList2 {
     }
 
     private Node getNode(int i) {
-
+        return null;
     }
 
     public int size() {
