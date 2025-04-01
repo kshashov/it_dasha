@@ -5,6 +5,9 @@ import java.util.Random;
 
 public class HashMapTest {
     public static void main(String[] args) {
+        System.out.println("test" == "test");
+        System.out.println(new String("test") == new String("test"));
+
         MyClass ob1 = new MyClass("1");
         MyClass ob2 = new MyClass("2");
 
