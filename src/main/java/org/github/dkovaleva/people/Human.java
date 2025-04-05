@@ -46,7 +46,9 @@ public class Human {
         }
         if (o instanceof Human) {
             Human newH = (Human) o;
-            return name.equals(newH.name) && yearBirth == newH.yearBirth;
+            return name.equals(newH.name)
+                    && (weight == newH.weight)
+                    && (yearBirth == newH.yearBirth);
         } else return false;
     }
 
