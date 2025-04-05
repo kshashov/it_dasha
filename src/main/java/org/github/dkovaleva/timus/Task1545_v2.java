@@ -25,6 +25,7 @@ public class Task1545_v2 {
             } else {
                 List<String> v = h.get(key);
                 v.add(a);
+
             }
 
         }
