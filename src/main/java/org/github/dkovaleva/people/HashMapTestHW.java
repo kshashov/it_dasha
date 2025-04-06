@@ -13,6 +13,10 @@ public class HashMapTestHW {
         Human s = new Human("Элечка", 2006, 10);
         Human o = new Human("Olenka", 1978, 3);
 
+        Human h = new Human(null, 12, 12);
+
+        h.equals(kk);
+
         phoneBook.put(k, 123456);
         phoneBook.put(a, 4567);
         phoneBook.put(f, 678909);

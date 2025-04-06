@@ -1,5 +1,7 @@
 package org.github.dkovaleva.people;
 
+import java.util.Objects;
+
 public class Human {
     private int yearBirth;
     private int weight;
@@ -46,11 +48,21 @@ public class Human {
         }
         if (o instanceof Human) {
             Human newH = (Human) o;
-            return name.equals(newH.name)
+            return Objects.equals(name, newH.name) //name.equals(newH.name) // TODO запомнить
                     && (weight == newH.weight)
                     && (yearBirth == newH.yearBirth);
-        } else return false;
+        }
+
+        return false;
     }
+
+
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (!(o instanceof Human human)) return false;
+//        return yearBirth == human.yearBirth && weight == human.weight && Objects.equals(name, human.name);
+//    }
 
     @Override
     public int hashCode() {
