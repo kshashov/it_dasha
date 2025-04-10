@@ -3,7 +3,7 @@ package org.github.dkovaleva;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SortingTest {
+public class SelectionSortingTest {
 
     public static void main(String[] args) {
         List<Integer> list = new ArrayList<>();

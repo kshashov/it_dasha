@@ -1,4 +1,4 @@
-package org.github.dkovaleva.lists;
+package org.github.dkovaleva.loops;
 
 public class List2 {
     public static void main(String[] args) {
