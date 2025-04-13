@@ -15,10 +15,18 @@ public class List6 {
 
         for (int i = 1; i <= 5; i++) {
             result = "";
+
             for (int j = 1; j <= i; j++) {
                 n = n + 1;
-                result = n + " " + result;
-
+//                if (j == 1) {
+//                    result = n + "";
+//                } else {
+//                    result = result + " " + n;
+//                }
+                if (j != 1) {
+                    result = result + " ";
+                }
+                result = result + n;
             }
             System.out.println(result);
 
