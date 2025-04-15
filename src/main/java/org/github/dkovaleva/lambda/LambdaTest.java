@@ -1,9 +1,7 @@
 package org.github.dkovaleva.lambda;
 
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
-import java.util.function.Function;
+import java.util.Random;
+import java.util.function.*;
 
 public class LambdaTest {
     public static void main(String[] args) {
@@ -33,9 +31,25 @@ public class LambdaTest {
         BiConsumer<String, String> bc = (s1, s2) -> {
             System.out.println(s1 + s2);
         };
-
-
         bc.accept("hui", "pizda");
+
+        Supplier<Integer> s = () -> {
+            return new Random().nextInt();
+        };
+        System.out.println(s.get());
+
+        Predicate<Integer> p = (i) -> {
+            return i > 5;
+        };
+        System.out.println(p.test(10));
+
+        UnaryOperator<Boolean> uo = (b) -> {
+            return !b;
+        };
+        System.out.println(uo.apply(false));
+
+
+
 
     }
 
