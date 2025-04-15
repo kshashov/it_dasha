@@ -1,4 +1,4 @@
-package org.github.dkovaleva;
+package org.github.dkovaleva.timus;
 
 import java.util.Scanner;
 

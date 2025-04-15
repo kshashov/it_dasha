@@ -13,6 +13,7 @@ public class GamesAnddemons {
         Color color = Color.valueOf(text);
         draw(color);
 
+
     }
 
     public static void draw(Color color) {

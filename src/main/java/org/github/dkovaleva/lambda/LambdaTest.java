@@ -1,5 +1,6 @@
 package org.github.dkovaleva.lambda;
 
+import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -29,10 +30,12 @@ public class LambdaTest {
         };
         c.accept(4L);
 
-//        BiConsumer<String, String> bc = (s1, s2) -> {
-//            System.out.println(s1+s2);
-//        };
-//        bc.accept("hui", "pizda");
+        BiConsumer<String, String> bc = (s1, s2) -> {
+            System.out.println(s1 + s2);
+        };
+
+
+        bc.accept("hui", "pizda");
 
     }
 
