@@ -22,7 +22,7 @@ public class AnonymousClassesTest {
 //            }
 //        }));
 //
-//        System.out.println("minus " + process(list, (a, b) -> a + b));
+        System.out.println("minus " + process(list, (a, b) -> a + b));
 //        System.out.println("minus " + process(list, (a, b) -> {
 //            System.out.println(a);
 //            return a + b;
