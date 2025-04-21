@@ -4,40 +4,45 @@ package org.github.dkovaleva.lambda;
 //Решить двумя способами - со своим функциональным интерфейсом и со стандартным
 
 
-import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 public class Homework {
     public static void main(String[] args) {
         String test = "gbg";
         String test2 = "";
 
-        Line lines = new Line() {
+        StringTester lines = new StringTester() {
             @Override
-            public boolean row(String s) {
+            public boolean isEmpty(String s) {
                 return s.equals("");
             }
         };
-        System.out.println(lines.row(test2));
+        System.out.println(lines.isEmpty(test2));
 
 
-        Line l = (s) -> {
+        StringTester l = (s) -> {
             return s.equals("");
         };
-        System.out.println(l.row(test));
+        System.out.println(l.isEmpty(test));
 
 
-        Consumer<String> r = (t) -> {
-            System.out.println(t.equals(""));
+//        Consumer<String> r = (t) -> {
+//            System.out.println(t.equals(""));
+//        };
+//        r.accept(test);
+
+
+        Predicate<String> isEmpty = (t) -> {
+            return t.equals("");
         };
-        r.accept(test);
-
+        System.out.println(isEmpty.test(test2));
 
     }
 
 
     @FunctionalInterface
-    interface Line {
-        boolean row(String s);
+    interface StringTester {
+        boolean isEmpty(String s);
     }
 
 

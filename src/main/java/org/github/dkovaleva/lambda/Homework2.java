@@ -20,41 +20,41 @@ public class Homework2 {
 //
 //
 
-        Ints numbers = (listnumbers) -> {
+        Deleter deleterNumbers = (numbersList) -> {
             List<Integer> newintegers = new ArrayList<>();
-            for (int m : listnumbers) {
+            for (int m : numbersList) {
                 if (m % 2 == 0) {
                     newintegers.add(m);
                 }
             }
-            System.out.println(newintegers);
+            return newintegers;
         };
 
-        numbers.deletenumbers(integers);
+        System.out.println(deleterNumbers.deleteOdd(integers));
 
 //
 //
 //
 
-        Ints nums = new Ints() {
+        Deleter nums = new Deleter() {
             @Override
-            public void deletenumbers(List<Integer> list) {
+            public List<Integer> deleteOdd(List<Integer> list) {
                 List<Integer> newintegers = new ArrayList<>();
                 for (int m : list) {
                     if (m % 2 == 0) {
                         newintegers.add(m);
                     }
                 }
-                System.out.println(newintegers);
+                return newintegers;
             }
         };
 
-        nums.deletenumbers(integers);
+        System.out.println(nums.deleteOdd(integers));
 
 //
 //
 //
-        Function<List<Integer>, List<Integer>> functions = (list) -> {
+        Function<List<Integer>, List<Integer>> function = (list) -> {
             List<Integer> newintegers = new ArrayList<>();
             for (int m : list) {
                 if (m % 2 == 0) {
@@ -64,14 +64,14 @@ public class Homework2 {
             return newintegers;
 
         };
-        System.out.println(functions.apply(integers));
+        System.out.println(function.apply(integers));
     }
 
 
 }
 
 @FunctionalInterface
-interface Ints {
-    void deletenumbers(List<Integer> list);
+interface Deleter {
+    List<Integer> deleteOdd(List<Integer> list);
 
 }
