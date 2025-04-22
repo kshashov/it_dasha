@@ -15,11 +15,9 @@ public class Homework2 {
         List<Integer> iii = new ArrayList<>(List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
         List<Integer> integers = new ArrayList<>(iii);
 
-
 //
 //
 //
-
         Deleter deleterNumbers = (numbersList) -> {
             List<Integer> newintegers = new ArrayList<>();
             for (int m : numbersList) {
@@ -35,7 +33,6 @@ public class Homework2 {
 //
 //
 //
-
         Deleter nums = new Deleter() {
             @Override
             public List<Integer> deleteOdd(List<Integer> list) {
