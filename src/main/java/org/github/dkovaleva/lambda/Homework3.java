@@ -29,8 +29,8 @@ public class Homework3 {
 
         Sum sumInt = (list) -> {
             int sum = 0;
-            for (int i = 0; i < list.size(); i++) {
-                sum = sum + list.get(i);
+            for (Integer number : list) {
+                sum = sum + number;
             }
             return sum;
         };
