@@ -1,5 +1,7 @@
 package org.github.dkovaleva;
 
+import java.util.Objects;
+
 public class Person {
     private String name;
     public boolean isMale;
@@ -61,6 +63,18 @@ public class Person {
         return result;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return isMale == person.isMale && rarity == person.rarity && Objects.equals(name, person.name) && Objects.equals(weapon, person.weapon);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, isMale, weapon, rarity);
+    }
 }
 
 

@@ -13,9 +13,9 @@ public class HashMapTestHW {
         Human s = new Human("Элечка", 2006, 10);
         Human o = new Human("Olenka", 1978, 3);
 
-        Human h = new Human(null, 12, 12);
+        Human h = new Human("Kate", 1923, 23);
 
-        h.equals(kk);
+        System.out.println(h.equals(kk));
 
         phoneBook.put(k, 123456);
         phoneBook.put(a, 4567);
@@ -27,7 +27,7 @@ public class HashMapTestHW {
         phoneBook.put(kk, 98765);
 //        phoneBook.put(f, 1235);
 //        System.out.println(phoneBook);
-        System.out.println(o.equals(64));
+        System.out.println(o.equals(o));
 
         System.out.println(phoneBook);
     }
