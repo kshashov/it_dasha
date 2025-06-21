@@ -105,24 +105,43 @@ public class Tree {
         }
 
 
-        public String remove(int del) {
+        public String remove(int number) {
             String result = "";
-            if (contains(del) == false) {
-                result = "Значение не найдено";
-                return result;
-            } else {
-                Node i = new Node(del, left, right);
-                Node father = new Node(0, null, null);
-                if (left == null) {
-                    return "";
+            Node parent = findParent(number);
+            Node childRight = parent.right;
+            Node childLeft = parent.left;
+            if (number == childRight.value) {
+//                if (childRight.right == null && childRight.left == null) {
+//                    parent.left = null;
+//                    parent.right = null;
+//                }
+                if (childRight.left != null) {
+                    if (childRight.right != null) {
+                        parent.right = childRight.right;
+                        childRight.right.left = childRight.left;
+                    } else {
+                        parent.right = childRight.left;
+                    }
                 }
-                if (right == null) {
-                    return "";
-                }
-
-                while ()
             }
+            if (number == childLeft.value) {
+//                if (childLeft.right == null && childLeft.left == null) {
+//                    parent.left = null;
+//                    parent.right = null;
+//                }
+                if (childLeft.left != null) {
+                    if (childLeft.right != null) {
+                        parent.left = childLeft.right;
+                        childLeft.right.left = childLeft.left;
+                    } else {
+                        parent.right = childLeft.left;
+                    }
+                }
+            }
+
+
             result = "Значение удалено";
+
             return result;
         }
 
@@ -130,8 +149,16 @@ public class Tree {
         public static void main(String[] args) {
 
             Node n26 = new Node(26, null, null);
-            Node parent = new Node(10,
-                    new Node(8, new Node(3, null, null), new Node(9, null, null)), new Node(15, new Node(12, null, null), new Node(20, null, n26)));
+            Node parent;
+            parent = new Node(10,
+                    new Node(8,
+                            new Node(3, null, null),
+                            new Node(9, null, null)),
+                    new Node(15,
+                            new Node(12,
+                                    new Node(11, null, null),
+                                    null),
+                            new Node(20, null, n26)));
 //            System.out.println(parent.sum());
 //            System.out.println(parent.findMax());
 //            System.out.println(parent.contains(23));
@@ -139,9 +166,10 @@ public class Tree {
 
 //            System.out.println(parent.remove(12));
 //            System.out.println(n26);
-            System.out.println(parent.findParent(12).value);
+//            System.out.println(parent.findParent(12).value);
             ;
-
+            parent.remove(8);
+            System.out.println(parent.sum());
         }
 
     }
