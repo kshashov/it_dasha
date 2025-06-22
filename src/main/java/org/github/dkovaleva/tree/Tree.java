@@ -105,8 +105,7 @@ public class Tree {
         }
 
 
-        public String remove(int number) {
-            String result = "";
+        public void remove(int number) {
             Node parent = findParent(number);
             Node childRight = parent.right;
             Node childLeft = parent.left;
@@ -138,11 +137,49 @@ public class Tree {
                     }
                 }
             }
+//            конец
+        }
+
+        public void remove2(int number) {
+            Node parent = findParent(number);
+            Node childRight = parent.right;
+            Node childLeft = parent.left;
+            if (number == childRight.value) {
+                if (childRight.left != null) {
+                    if (childRight.right != null) {
+                        childRight.right.findLeft().left = childRight.left;
+                        parent.right = childRight.right;
+                    } else {
+                        parent.left = childRight.left;
+                    }
+                } else if (childRight.right != null) {
+                    parent.right = childRight.right;
+                }
+
+//                конец правой ветки
+            }
+//            if (number == childLeft.value) {
+//                if (childLeft.left != null) {
+//                    if (childLeft.right != null) {
+//                        childLeft.right.findLeft().left = childLeft.left;
+//                        parent.right = childLeft.right;
+//                    } else {
+//                        parent.right = childLeft.left;
+//                    }
+//                } else if (childLeft.right != null) {
+//                    parent.right = childLeft.right;
+//                }
+//
+//// конец левой ветки
+//
+//            }
+//            конец
+        }
 
 
-            result = "Значение удалено";
-
-            return result;
+        public Node findLeft() {
+            if (left == null) return this;
+            else return left.findLeft();
         }
 
 
@@ -168,8 +205,10 @@ public class Tree {
 //            System.out.println(n26);
 //            System.out.println(parent.findParent(12).value);
             ;
-            parent.remove(8);
+            parent.remove2(20);
             System.out.println(parent.sum());
+
+//            System.out.println(parent.findLeft());
         }
 
     }
