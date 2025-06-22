@@ -124,8 +124,7 @@ public class Tree {
                     parent.right = childRight.right;
                 }
 //                конец правой ветки
-            }
-            if (number == childLeft.value) {
+            } else if (number == childLeft.value) {
                 if (childLeft.right == null && childLeft.left == null) {
                     parent.left = null;
                 }
@@ -137,13 +136,12 @@ public class Tree {
                         parent.left = childLeft.left;
                     }
                 } else if (childLeft.right != null) {
-                    parent.right = childLeft.right;
+                    parent.left = childLeft.right;
                 }
 // конец левой ветки
             }
 //            конец
         }
-
 
         public Node findLeft() {
             if (left == null) return this;
@@ -173,7 +171,7 @@ public class Tree {
 //            System.out.println(n26);
 //            System.out.println(parent.findParent(12).value);
             ;
-            parent.remove(3);
+            parent.remove(8);
             System.out.println(parent.sum());
 
 //            System.out.println(parent.findLeft());
