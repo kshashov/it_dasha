@@ -110,69 +110,37 @@ public class Tree {
             Node childRight = parent.right;
             Node childLeft = parent.left;
             if (number == childRight.value) {
-//                if (childRight.right == null && childRight.left == null) {
-//                    parent.left = null;
-//                    parent.right = null;
-//                }
-                if (childRight.left != null) {
-                    if (childRight.right != null) {
-                        parent.right = childRight.right;
-                        childRight.right.left = childRight.left;
-                    } else {
-                        parent.right = childRight.left;
-                    }
+                if (childRight.right == null && childRight.left == null) {
+                    parent.right = null;
                 }
-            }
-            if (number == childLeft.value) {
-//                if (childLeft.right == null && childLeft.left == null) {
-//                    parent.left = null;
-//                    parent.right = null;
-//                }
-                if (childLeft.left != null) {
-                    if (childLeft.right != null) {
-                        parent.left = childLeft.right;
-                        childLeft.right.left = childLeft.left;
-                    } else {
-                        parent.right = childLeft.left;
-                    }
-                }
-            }
-//            конец
-        }
-
-        public void remove2(int number) {
-            Node parent = findParent(number);
-            Node childRight = parent.right;
-            Node childLeft = parent.left;
-            if (number == childRight.value) {
                 if (childRight.left != null) {
                     if (childRight.right != null) {
                         childRight.right.findLeft().left = childRight.left;
                         parent.right = childRight.right;
                     } else {
-                        parent.left = childRight.left;
+                        parent.right = childRight.left;
                     }
                 } else if (childRight.right != null) {
                     parent.right = childRight.right;
                 }
-
 //                конец правой ветки
             }
-//            if (number == childLeft.value) {
-//                if (childLeft.left != null) {
-//                    if (childLeft.right != null) {
-//                        childLeft.right.findLeft().left = childLeft.left;
-//                        parent.right = childLeft.right;
-//                    } else {
-//                        parent.right = childLeft.left;
-//                    }
-//                } else if (childLeft.right != null) {
-//                    parent.right = childLeft.right;
-//                }
-//
-//// конец левой ветки
-//
-//            }
+            if (number == childLeft.value) {
+                if (childLeft.right == null && childLeft.left == null) {
+                    parent.left = null;
+                }
+                if (childLeft.left != null) {
+                    if (childLeft.right != null) {
+                        childLeft.right.findLeft().left = childLeft.left;
+                        parent.right = childLeft.right;
+                    } else {
+                        parent.left = childLeft.left;
+                    }
+                } else if (childLeft.right != null) {
+                    parent.right = childLeft.right;
+                }
+// конец левой ветки
+            }
 //            конец
         }
 
@@ -205,7 +173,7 @@ public class Tree {
 //            System.out.println(n26);
 //            System.out.println(parent.findParent(12).value);
             ;
-            parent.remove2(20);
+            parent.remove(3);
             System.out.println(parent.sum());
 
 //            System.out.println(parent.findLeft());
