@@ -131,7 +131,7 @@ public class Tree {
                 if (childLeft.left != null) {
                     if (childLeft.right != null) {
                         childLeft.right.findLeft().left = childLeft.left;
-                        parent.right = childLeft.right;
+                        parent.left = childLeft.right;
                     } else {
                         parent.left = childLeft.left;
                     }
