@@ -20,6 +20,8 @@ public class MyBot implements LongPollingSingleThreadUpdateConsumer {
             String chatId = update.getMessage().getChatId().toString();
             String text = update.getMessage().getText();
 
+            // TODO Dasha
+
             SendMessage sendMessage = new SendMessage(chatId, text + " hui");
             execute(sendMessage);
         }

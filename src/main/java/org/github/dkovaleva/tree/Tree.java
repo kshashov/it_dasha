@@ -56,7 +56,7 @@ public class Tree {
         public int sum() {
             int sum = value;
 
-            System.out.println(value);
+//            System.out.println(value);
 
             if (left != null) {
                 sum = sum + left.sum();
@@ -68,7 +68,6 @@ public class Tree {
 
             return sum;
         }
-
 
 //        public void put(int add) {
 //            if (contains(add) == true) {
@@ -148,6 +147,38 @@ public class Tree {
             else return left.findLeft();
         }
 
+        public int process(Operation operation) {
+//        public int process(BiFunction<Integer, Integer, Integer> operation) {
+            int result = value;
+
+//            System.out.println(value);
+
+            if (left != null) {
+                //result * left.sum();
+                result = operation.operate(result, left.process(operation));
+            }
+
+            if (right != null) {
+//                result = result * right.sum();
+                result = operation.operate(result, right.process(operation));
+
+            }
+
+            return result;
+        }
+
+        //        @FunctionalInterface
+        interface Operation {
+            public int operate(int left, int right);
+        }
+
+        static class Sum implements Operation {
+
+            @Override
+            public int operate(int left, int right) {
+                return left + right;
+            }
+        }
 
         public static void main(String[] args) {
 
@@ -171,8 +202,20 @@ public class Tree {
 //            System.out.println(n26);
 //            System.out.println(parent.findParent(12).value);
             ;
-            parent.remove(8);
+//            parent.remove(8);
             System.out.println(parent.sum());
+            System.out.println(parent.process(new Sum()));
+            System.out.println(parent.process(new Operation() {
+                @Override
+                public int operate(int left, int right) {
+                    return left + right;
+                }
+            }));
+            System.out.println(parent.process((left, right) -> left + right));
+            System.out.println(parent.process((left, right) -> left * right));
+
+
+
 
 //            System.out.println(parent.findLeft());
         }
