@@ -8,6 +8,10 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 
+/*
+    https://github.com/rubenlagus/TelegramBots?tab=readme-ov-file
+    https://rubenlagus.github.io/TelegramBotsDocumentation/telegram-bots.html
+ */
 public class MyBot implements LongPollingSingleThreadUpdateConsumer {
     public static final String BOT_TOKEN = "5251321850:AAFuuXMwQzf9Hav9IxfwuRS49e_icrFkcK0";
     private TelegramClient telegramClient = new OkHttpTelegramClient(BOT_TOKEN);
@@ -19,6 +23,7 @@ public class MyBot implements LongPollingSingleThreadUpdateConsumer {
             // Create your send message object
             String chatId = update.getMessage().getChatId().toString();
             String text = update.getMessage().getText();
+
 
             // TODO Dasha
 
