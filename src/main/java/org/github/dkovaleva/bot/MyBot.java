@@ -30,7 +30,7 @@ public class MyBot implements LongPollingSingleThreadUpdateConsumer {
             String chatId = update.getMessage().getChatId().toString();
             String text = update.getMessage().getText();
 
-            if (text.startsWith("/список")) {
+            if (text.startsWith("/list")) {
                 if (todoList.isEmpty()) {
                     // если список пуст
                     execute(new SendMessage(chatId, "Пусто"));
@@ -39,7 +39,7 @@ public class MyBot implements LongPollingSingleThreadUpdateConsumer {
                     String todos = "";
                     int i = 1;
                     for (TODO todo : todoList) {
-                        todos += i + todo.getText() + "\n";
+                        todos += i + " " + todo.getText() + "\n";
                         i++;
                     }
 
@@ -51,20 +51,33 @@ public class MyBot implements LongPollingSingleThreadUpdateConsumer {
                     SendMessage sendMessage = new SendMessage(chatId, todos);
                     execute(sendMessage);
                 }
-            } else if (text.startsWith("/добавить")) {
-                // делим исходную строку пробелом чтобы отсечь команду /добавить
+            } else if (text.startsWith("/add")) {
+                // делим исходную строку пробелом, чтобы отсечь команду /добавить
                 String[] todoArr = text.split(" ", 2);
                 // добавляем новую в конец списка
-                TODO todo = new TODO(todoArr[1]);
-                todoList.add(todo);
-            } else if (text.startsWith("/удалить")) {
-                // делим исходную строку пробелом чтобы отсечь команду /удалить
-                String[] todoArr = text.split(" ", 2);
-                int i = Integer.parseInt(todoArr[1]);
-                // удаляем из списка по номеру
-                todoList.remove(i - 1);
+                if (todoArr.length == 1) {
+                    execute(new SendMessage(chatId, "Текст задачи не распознан"));
+                } else {
+                    TODO todo = new TODO(todoArr[1]);
+                    todoList.add(todo);
+                }
 
-            }
+            } else if (text.startsWith("/delete")) {
+                // делим исходную строку пробелом, чтобы отсечь команду /удалить
+                String[] todoArr = text.split(" ", 2);
+                double d = Double.parseDouble(todoArr[1]);
+                if (todoArr.length == 1 || d != Math.floor(d) || d < 1) {
+                    execute(new SendMessage(chatId, "Номер задачи не распознан"));
+                } else {
+                    int i = Integer.parseInt(todoArr[1]);
+                    // удаляем из списка по номеру
+                    if (i > todoList.size()) {
+                        execute(new SendMessage(chatId, "Список для удаления пуст"));
+                    } else todoList.remove(i - 1);
+                }
+
+
+            } else execute(new SendMessage(chatId, "Одна ошибка и ты ошибся. Бывает."));
 
             // TODO Dasha
         }
