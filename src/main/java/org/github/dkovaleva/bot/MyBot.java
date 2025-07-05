@@ -8,7 +8,6 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /*
@@ -18,8 +17,11 @@ import java.util.List;
 public class MyBot implements LongPollingSingleThreadUpdateConsumer {
     public static final String BOT_TOKEN = "5251321850:AAFuuXMwQzf9Hav9IxfwuRS49e_icrFkcK0";
     private TelegramClient telegramClient = new OkHttpTelegramClient(BOT_TOKEN);
-    private List<TODO> todoList = new ArrayList<>();
+    private final TasksRepository repository;
 
+    public MyBot() {
+        repository = new TasksRepository();
+    }
 
     @Override
     public void consume(Update update) {
@@ -48,7 +50,7 @@ public class MyBot implements LongPollingSingleThreadUpdateConsumer {
         // делим исходную строку пробелом, чтобы отсечь команду /удалить
         String[] todoArr = text.split(" ", 2);
 
-        int i = 0;
+        int i;
         try {
             i = Integer.parseInt(todoArr[1]);
         } catch (NumberFormatException ex) {
@@ -58,11 +60,15 @@ public class MyBot implements LongPollingSingleThreadUpdateConsumer {
 
         if (todoArr.length == 1) {
             execute(new SendMessage(chatId, "Номер задачи не указан"));
-        } else if (i > todoList.size() || i < 1) { //d != Math.floor(d)
-            execute(new SendMessage(chatId, "Отсутствует задача с указанным номером"));
         } else {
             // удаляем из списка по номеру
-            todoList.remove(i - 1);
+            try {
+                repository.remove(i - 1);
+            } catch (IllegalArgumentException ex) {
+                execute(new SendMessage(chatId, "Отсутствует задача с указанным номером"));
+                return;
+            }
+
             showTasks(chatId);
         }
     }
@@ -74,22 +80,23 @@ public class MyBot implements LongPollingSingleThreadUpdateConsumer {
         if (todoArr.length == 1) {
             execute(new SendMessage(chatId, "Текст задачи не указан"));
         } else {
-            TODO todo = new TODO(todoArr[1]);
-            todoList.add(todo);
+            Task task = new Task(todoArr[1]);
+            repository.add(task);
             showTasks(chatId);
         }
     }
 
     private void showTasks(String chatId) {
-        if (todoList.isEmpty()) {
+        List<Task> taskList = repository.getAll();
+        if (taskList.isEmpty()) {
             // если список пуст
             execute(new SendMessage(chatId, "Нет задач"));
         } else {
             // если есть задачи - формируем одну строку из задач
             String todos = "";
             int i = 1;
-            for (TODO todo : todoList) {
-                todos += i + " " + todo.getText() + "\n";
+            for (Task task : taskList) {
+                todos += i + " " + task.getText() + "\n";
                 i++;
             }
 

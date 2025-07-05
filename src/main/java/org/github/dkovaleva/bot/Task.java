@@ -1,9 +1,9 @@
 package org.github.dkovaleva.bot;
 
-public class TODO {
+public class Task {
     private String text;
 
-    public TODO(String text) {
+    public Task(String text) {
         this.text = text;
     }
 
