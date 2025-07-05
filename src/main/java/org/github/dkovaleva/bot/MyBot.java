@@ -33,7 +33,7 @@ public class MyBot implements LongPollingSingleThreadUpdateConsumer {
             if (text.startsWith("/list")) {
                 if (todoList.isEmpty()) {
                     // если список пуст
-                    execute(new SendMessage(chatId, "Пусто"));
+                    execute(new SendMessage(chatId, "Нет задач"));
                 } else {
                     // если есть задачи - формируем одну строку из задач
                     String todos = "";
@@ -43,11 +43,6 @@ public class MyBot implements LongPollingSingleThreadUpdateConsumer {
                         i++;
                     }
 
-                    // вариант с обычным фором со счетчиком
-//                    for (int i = 0; i < todoList.size(); i++) {
-//                        todos += (i + 1) + todoList.get(i).getText() + "\n";
-//                    }
-
                     SendMessage sendMessage = new SendMessage(chatId, todos);
                     execute(sendMessage);
                 }
@@ -56,28 +51,28 @@ public class MyBot implements LongPollingSingleThreadUpdateConsumer {
                 String[] todoArr = text.split(" ", 2);
                 // добавляем новую в конец списка
                 if (todoArr.length == 1) {
-                    execute(new SendMessage(chatId, "Текст задачи не распознан"));
+                    execute(new SendMessage(chatId, "Текст задачи не указан"));
                 } else {
                     TODO todo = new TODO(todoArr[1]);
                     todoList.add(todo);
                 }
-
             } else if (text.startsWith("/delete")) {
                 // делим исходную строку пробелом, чтобы отсечь команду /удалить
                 String[] todoArr = text.split(" ", 2);
                 double d = Double.parseDouble(todoArr[1]);
-                if (todoArr.length == 1 || d != Math.floor(d) || d < 1) {
-                    execute(new SendMessage(chatId, "Номер задачи не распознан"));
+                if (todoArr.length == 1) {
+                    execute(new SendMessage(chatId, "Номер задачи не указан"));
+                } else if (d != Math.floor(d) || d > todoList.size() || d < 1) {
+                    execute(new SendMessage(chatId, "Некорректный номер задачи"));
                 } else {
                     int i = Integer.parseInt(todoArr[1]);
                     // удаляем из списка по номеру
-                    if (i > todoList.size()) {
-                        execute(new SendMessage(chatId, "Список для удаления пуст"));
-                    } else todoList.remove(i - 1);
+                    todoList.remove(i - 1);
                 }
 
-
-            } else execute(new SendMessage(chatId, "Одна ошибка и ты ошибся. Бывает."));
+            } else {
+                execute(new SendMessage(chatId, "Одна ошибка и ты ошибся. Бывает."));
+            }
 
             // TODO Dasha
         }
