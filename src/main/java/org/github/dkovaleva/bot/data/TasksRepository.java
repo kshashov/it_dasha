@@ -1,7 +1,5 @@
 package org.github.dkovaleva.bot.data;
 
-import org.github.dkovaleva.bot.Task;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

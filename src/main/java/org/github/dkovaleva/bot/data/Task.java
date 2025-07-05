@@ -1,4 +1,4 @@
-package org.github.dkovaleva.bot;
+package org.github.dkovaleva.bot.data;
 
 public class Task {
     private String text;

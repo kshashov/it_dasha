@@ -1,6 +1,6 @@
 package org.github.dkovaleva.bot.data;
 
-class TaskList {
+public class TaskList {
     private String title;
 //    private List<Task> tasks = new ArrayList<>();
 

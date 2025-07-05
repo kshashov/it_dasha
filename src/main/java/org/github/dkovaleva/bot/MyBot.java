@@ -1,5 +1,6 @@
 package org.github.dkovaleva.bot;
 
+import org.github.dkovaleva.bot.data.Task;
 import org.github.dkovaleva.bot.data.TasksRepository;
 import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
 import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateConsumer;
