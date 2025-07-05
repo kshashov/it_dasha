@@ -59,13 +59,20 @@ public class MyBot implements LongPollingSingleThreadUpdateConsumer {
             } else if (text.startsWith("/delete")) {
                 // делим исходную строку пробелом, чтобы отсечь команду /удалить
                 String[] todoArr = text.split(" ", 2);
-                double d = Double.parseDouble(todoArr[1]);
+
+                int i = 0;
+                try {
+                    i = Integer.parseInt(todoArr[1]);
+                } catch (NumberFormatException ex) {
+                    execute(new SendMessage(chatId, "Некорректный номер задачи"));
+                    return;
+                }
+
                 if (todoArr.length == 1) {
                     execute(new SendMessage(chatId, "Номер задачи не указан"));
-                } else if (d != Math.floor(d) || d > todoList.size() || d < 1) {
-                    execute(new SendMessage(chatId, "Некорректный номер задачи"));
+                } else if (i > todoList.size() || i < 1) { //d != Math.floor(d)
+                    execute(new SendMessage(chatId, "Отсутствует задача с указанным номером"));
                 } else {
-                    int i = Integer.parseInt(todoArr[1]);
                     // удаляем из списка по номеру
                     todoList.remove(i - 1);
                 }
