@@ -1,10 +1,12 @@
 package org.github.dkovaleva.bot;
 
+import org.github.dkovaleva.bot.data.TasksRepository;
 import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
 import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateConsumer;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 
@@ -31,13 +33,17 @@ public class MyBot implements LongPollingSingleThreadUpdateConsumer {
             // Create your send message object
             String chatId = update.getMessage().getChatId().toString();
             String text = update.getMessage().getText();
+            User user = update.getMessage().getFrom();
+            if (user == null) {
+                return;
+            }
 
             if (text.startsWith("/list")) {
-                showTasks(chatId);
+                showTasks(chatId, user);
             } else if (text.startsWith("/add")) {
-                addTask(text, chatId);
+                addTask(chatId, user, text);
             } else if (text.startsWith("/delete")) {
-                deleteTask(text, chatId);
+                deleteTask(chatId, user, text);
             } else {
                 execute(new SendMessage(chatId, "Одна ошибка и ты ошибся. Бывает."));
             }
@@ -46,7 +52,7 @@ public class MyBot implements LongPollingSingleThreadUpdateConsumer {
         }
     }
 
-    private void deleteTask(String text, String chatId) {
+    private void deleteTask(String chatId, User user, String text) {
         // делим исходную строку пробелом, чтобы отсечь команду /удалить
         String[] todoArr = text.split(" ", 2);
 
@@ -63,17 +69,17 @@ public class MyBot implements LongPollingSingleThreadUpdateConsumer {
         } else {
             // удаляем из списка по номеру
             try {
-                repository.remove(i - 1);
+                repository.remove(user.getId(), i - 1);
             } catch (IllegalArgumentException ex) {
                 execute(new SendMessage(chatId, "Отсутствует задача с указанным номером"));
                 return;
             }
 
-            showTasks(chatId);
+            showTasks(chatId, user);
         }
     }
 
-    private void addTask(String text, String chatId) {
+    private void addTask(String chatId, User user, String text) {
         // делим исходную строку пробелом, чтобы отсечь команду /добавить
         String[] todoArr = text.split(" ", 2);
         // добавляем новую в конец списка
@@ -81,13 +87,13 @@ public class MyBot implements LongPollingSingleThreadUpdateConsumer {
             execute(new SendMessage(chatId, "Текст задачи не указан"));
         } else {
             Task task = new Task(todoArr[1]);
-            repository.add(task);
-            showTasks(chatId);
+            repository.add(user.getId(), task);
+            showTasks(chatId, user);
         }
     }
 
-    private void showTasks(String chatId) {
-        List<Task> taskList = repository.getAll();
+    private void showTasks(String chatId, User user) {
+        List<Task> taskList = repository.getAll(user.getId());
         if (taskList.isEmpty()) {
             // если список пуст
             execute(new SendMessage(chatId, "Нет задач"));
