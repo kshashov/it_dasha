@@ -31,57 +31,70 @@ public class MyBot implements LongPollingSingleThreadUpdateConsumer {
             String text = update.getMessage().getText();
 
             if (text.startsWith("/list")) {
-                if (todoList.isEmpty()) {
-                    // если список пуст
-                    execute(new SendMessage(chatId, "Нет задач"));
-                } else {
-                    // если есть задачи - формируем одну строку из задач
-                    String todos = "";
-                    int i = 1;
-                    for (TODO todo : todoList) {
-                        todos += i + " " + todo.getText() + "\n";
-                        i++;
-                    }
-
-                    SendMessage sendMessage = new SendMessage(chatId, todos);
-                    execute(sendMessage);
-                }
+                showTasks(chatId);
             } else if (text.startsWith("/add")) {
-                // делим исходную строку пробелом, чтобы отсечь команду /добавить
-                String[] todoArr = text.split(" ", 2);
-                // добавляем новую в конец списка
-                if (todoArr.length == 1) {
-                    execute(new SendMessage(chatId, "Текст задачи не указан"));
-                } else {
-                    TODO todo = new TODO(todoArr[1]);
-                    todoList.add(todo);
-                }
+                addTask(text, chatId);
             } else if (text.startsWith("/delete")) {
-                // делим исходную строку пробелом, чтобы отсечь команду /удалить
-                String[] todoArr = text.split(" ", 2);
-
-                int i = 0;
-                try {
-                    i = Integer.parseInt(todoArr[1]);
-                } catch (NumberFormatException ex) {
-                    execute(new SendMessage(chatId, "Некорректный номер задачи"));
-                    return;
-                }
-
-                if (todoArr.length == 1) {
-                    execute(new SendMessage(chatId, "Номер задачи не указан"));
-                } else if (i > todoList.size() || i < 1) { //d != Math.floor(d)
-                    execute(new SendMessage(chatId, "Отсутствует задача с указанным номером"));
-                } else {
-                    // удаляем из списка по номеру
-                    todoList.remove(i - 1);
-                }
-
+                deleteTask(text, chatId);
             } else {
                 execute(new SendMessage(chatId, "Одна ошибка и ты ошибся. Бывает."));
             }
 
             // TODO Dasha
+        }
+    }
+
+    private void deleteTask(String text, String chatId) {
+        // делим исходную строку пробелом, чтобы отсечь команду /удалить
+        String[] todoArr = text.split(" ", 2);
+
+        int i = 0;
+        try {
+            i = Integer.parseInt(todoArr[1]);
+        } catch (NumberFormatException ex) {
+            execute(new SendMessage(chatId, "Некорректный номер задачи"));
+            return;
+        }
+
+        if (todoArr.length == 1) {
+            execute(new SendMessage(chatId, "Номер задачи не указан"));
+        } else if (i > todoList.size() || i < 1) { //d != Math.floor(d)
+            execute(new SendMessage(chatId, "Отсутствует задача с указанным номером"));
+        } else {
+            // удаляем из списка по номеру
+            todoList.remove(i - 1);
+            showTasks(chatId);
+        }
+    }
+
+    private void addTask(String text, String chatId) {
+        // делим исходную строку пробелом, чтобы отсечь команду /добавить
+        String[] todoArr = text.split(" ", 2);
+        // добавляем новую в конец списка
+        if (todoArr.length == 1) {
+            execute(new SendMessage(chatId, "Текст задачи не указан"));
+        } else {
+            TODO todo = new TODO(todoArr[1]);
+            todoList.add(todo);
+            showTasks(chatId);
+        }
+    }
+
+    private void showTasks(String chatId) {
+        if (todoList.isEmpty()) {
+            // если список пуст
+            execute(new SendMessage(chatId, "Нет задач"));
+        } else {
+            // если есть задачи - формируем одну строку из задач
+            String todos = "";
+            int i = 1;
+            for (TODO todo : todoList) {
+                todos += i + " " + todo.getText() + "\n";
+                i++;
+            }
+
+            SendMessage sendMessage = new SendMessage(chatId, todos);
+            execute(sendMessage);
         }
     }
 
