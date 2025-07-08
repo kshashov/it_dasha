@@ -1,6 +1,8 @@
 package org.github.dkovaleva.bot;
 
+import org.github.dkovaleva.bot.data.ListRepository;
 import org.github.dkovaleva.bot.data.Task;
+import org.github.dkovaleva.bot.data.TaskList;
 import org.github.dkovaleva.bot.data.TasksRepository;
 import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
 import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateConsumer;
@@ -17,13 +19,16 @@ import java.util.List;
     https://github.com/rubenlagus/TelegramBots?tab=readme-ov-file
     https://rubenlagus.github.io/TelegramBotsDocumentation/telegram-bots.html
  */
+
 public class MyBot implements LongPollingSingleThreadUpdateConsumer {
     public static final String BOT_TOKEN = "5251321850:AAFuuXMwQzf9Hav9IxfwuRS49e_icrFkcK0";
     private TelegramClient telegramClient = new OkHttpTelegramClient(BOT_TOKEN);
     private final TasksRepository repository;
+    private final ListRepository listReponsitory;
 
     public MyBot() {
         repository = new TasksRepository();
+        listReponsitory = new ListRepository();
     }
 
     @Override
@@ -45,13 +50,75 @@ public class MyBot implements LongPollingSingleThreadUpdateConsumer {
                 addTask(chatId, user, text);
             } else if (text.startsWith("/delete")) {
                 deleteTask(chatId, user, text);
-            } else {
-                execute(new SendMessage(chatId, "Одна ошибка и ты ошибся. Бывает."));
+//            } else {
+//                execute(new SendMessage(chatId, "Одна ошибка и ты ошибся. Бывает."));
+//
+            } else if (text.startsWith("/aList")) {
+                addTaskList(chatId, user, text);
+            } else if (text.startsWith("/sLists")) {
+                showLists(chatId, user);
+            } else if (text.startsWith("/delList")) {
+                deleteList(chatId, user, text);
             }
 
             // TODO Dasha
         }
     }
+
+    private void addTaskList(String chatId, User user, String text) {
+        // делим исходную строку пробелом, чтобы отсечь команду /добавить
+        String[] listArr = text.split(" ", 2);
+
+        if (listArr.length == 1) {
+            execute(new SendMessage(chatId, "Наименование списка не указано"));
+        } else {
+            TaskList newTaskList = new TaskList();
+            newTaskList.setTitle(listArr[1]);
+            listReponsitory.addListTask(user.getId(), newTaskList);
+        }
+    }
+
+    private void deleteList(String chatId, User user, String text) {
+        String[] listArr = text.split(" ", 2);
+
+        int num;
+        try {
+            num = Integer.parseInt(listArr[1]);
+        } catch (NumberFormatException ex) {
+            execute(new SendMessage(chatId, "Номер листа не распознан"));
+            return;
+        }
+
+        if (listArr.length == 1) {
+            execute(new SendMessage(chatId, "Номер списка не указан"));
+        } else {
+            try {
+                listReponsitory.deleteList(user.getId(), num - 1);
+            } catch (IllegalArgumentException ex) {
+                execute(new SendMessage(chatId, "Неверное значение"));
+            }
+        }
+    }
+
+    private void showLists(String chatId, User user) {
+        List<TaskList> taskLists = listReponsitory.getLists(user.getId());
+        if (taskLists.isEmpty()) {
+            // если списков нет
+            execute(new SendMessage(chatId, "Отсутствуют списки задач"));
+        } else {
+            // если есть списки - формируем строку из наименований списков
+            String allList = "";
+            int i = 1;
+            for (TaskList listi : taskLists) {
+                allList += i + " " + listi.getTitle() + "\n";
+                i++;
+            }
+
+            SendMessage sendMessage = new SendMessage(chatId, allList);
+            execute(sendMessage);
+        }
+    }
+
 
     private void deleteTask(String chatId, User user, String text) {
         // делим исходную строку пробелом, чтобы отсечь команду /удалить
