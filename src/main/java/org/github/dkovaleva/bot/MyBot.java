@@ -10,6 +10,9 @@ import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 
@@ -55,15 +58,27 @@ public class MyBot implements LongPollingSingleThreadUpdateConsumer {
 //
             } else if (text.startsWith("/aList")) {
                 addTaskList(chatId, user, text);
-            } else if (text.startsWith("/sLists")) {
+            } else if (text.startsWith("/sList")) {
                 showLists(chatId, user);
             } else if (text.startsWith("/delList")) {
                 deleteList(chatId, user, text);
             } else if (text.startsWith("/reList")) {
                 renameList(chatId, user, text);
+            } else if (text.startsWith("/button")) {
+                SendMessage sendMessage = new SendMessage(chatId, "button");
+                InlineKeyboardButton huiButton = InlineKeyboardButton.builder()
+                        .text("hui")
+                        .callbackData("h")
+                        .build();
+                sendMessage.setReplyMarkup(new InlineKeyboardMarkup(List.of(new InlineKeyboardRow(huiButton))));
+                execute(sendMessage);
             }
 
             // TODO Dasha
+        } else if (update.hasCallbackQuery()) {
+            if (update.getCallbackQuery().getData().equals("h")) {
+                execute(new SendMessage(update.getCallbackQuery().getMessage().getChatId().toString(), "hui"));
+            }
         }
     }
 
