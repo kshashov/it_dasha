@@ -59,6 +59,8 @@ public class MyBot implements LongPollingSingleThreadUpdateConsumer {
                 showLists(chatId, user);
             } else if (text.startsWith("/delList")) {
                 deleteList(chatId, user, text);
+            } else if (text.startsWith("/reList")) {
+                renameList(chatId, user, text);
             }
 
             // TODO Dasha
@@ -76,6 +78,42 @@ public class MyBot implements LongPollingSingleThreadUpdateConsumer {
             newTaskList.setTitle(listArr[1]);
             listReponsitory.addListTask(user.getId(), newTaskList);
         }
+        showLists(chatId, user);
+    }
+
+    private void renameList(String chatId, User user, String text) {
+        // делим исходную строку пробелом, чтобы отсечь команду /добавить
+        String[] listArr = text.split(" ", 3);
+
+//        if (listArr.length == 1) {
+//            execute(new SendMessage(chatId, "Наименование и номер списка не указаны"));
+//        } else if (listArr.length == 2) {
+//            execute(new SendMessage(chatId, "Наименование списка не указано"));
+//        } else {
+//            int numTask = Integer.parseInt(listArr[1]) - 1;
+////            List<TaskList> taskLists = listReponsitory.getLists(user.getId());
+////            taskLists.get(numTask - 1).setTitle(listArr[2]);
+//            listReponsitory.rename(user.getId(), numTask, listArr[2]);
+//
+//        }
+        int numTask;
+        try {
+            numTask = Integer.parseInt(listArr[1]);
+        } catch (NumberFormatException exception) {
+            execute(new SendMessage(chatId, "Неверно указан номер задачи"));
+            return;
+        }
+
+        if (listArr.length == 1) {
+            execute(new SendMessage(chatId, "Наименование и номер списка не указаны"));
+        } else {
+            try {
+                listReponsitory.rename(user.getId(), numTask, listArr[2]);
+            } catch (ArrayIndexOutOfBoundsException exception) {
+                execute(new SendMessage(chatId, "Неверно указан номер задачи nn"));
+            }
+        }
+        showLists(chatId, user);
     }
 
     private void deleteList(String chatId, User user, String text) {
@@ -98,6 +136,7 @@ public class MyBot implements LongPollingSingleThreadUpdateConsumer {
                 execute(new SendMessage(chatId, "Неверное значение"));
             }
         }
+        showLists(chatId, user);
     }
 
     private void showLists(String chatId, User user) {
@@ -117,6 +156,7 @@ public class MyBot implements LongPollingSingleThreadUpdateConsumer {
             SendMessage sendMessage = new SendMessage(chatId, allList);
             execute(sendMessage);
         }
+
     }
 
 

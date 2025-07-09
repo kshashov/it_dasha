@@ -36,4 +36,16 @@ public class ListRepository {
         }
     }
 
+    public void rename(Long userId, int numberList, String newNameList) throws IllegalArgumentException {
+        if (userLists.get(userId) == null) {
+            throw new IllegalArgumentException("Отсутствуют списки");
+        } else if (numberList > userLists.get(userId).size() - 1 || numberList <= 0) {
+            throw new ArrayIndexOutOfBoundsException("Неверное значение");
+        } else {
+            userLists.get(userId).get(numberList - 1).setTitle(newNameList);
+        }
+
+
+    }
+
 }
