@@ -93,14 +93,13 @@ public class MyBot implements LongPollingSingleThreadUpdateConsumer {
 //            int numTask = Integer.parseInt(listArr[1]) - 1;
 ////            List<TaskList> taskLists = listReponsitory.getLists(user.getId());
 ////            taskLists.get(numTask - 1).setTitle(listArr[2]);
-//            listReponsitory.rename(user.getId(), numTask, listArr[2]);
-//
 //        }
+
         int numTask;
         try {
-            numTask = Integer.parseInt(listArr[1]);
+            numTask = Integer.parseInt(listArr[1]) - 1;
         } catch (NumberFormatException exception) {
-            execute(new SendMessage(chatId, "Неверно указан номер задачи"));
+            execute(new SendMessage(chatId, "Неверно указан номер списка"));
             return;
         }
 
@@ -110,7 +109,7 @@ public class MyBot implements LongPollingSingleThreadUpdateConsumer {
             try {
                 listReponsitory.rename(user.getId(), numTask, listArr[2]);
             } catch (ArrayIndexOutOfBoundsException exception) {
-                execute(new SendMessage(chatId, "Неверно указан номер задачи nn"));
+                execute(new SendMessage(chatId, "Неверно указан номер списка"));
             }
         }
         showLists(chatId, user);

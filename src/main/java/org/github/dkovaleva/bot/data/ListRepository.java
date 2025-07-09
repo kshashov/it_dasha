@@ -27,22 +27,24 @@ public class ListRepository {
     }
 
     public void deleteList(Long userId, int num) throws IllegalArgumentException {
-        if (userLists.get(userId) == null) {
+        List<TaskList> taskLists = userLists.get(userId);
+        if (taskLists == null) {
             throw new IllegalArgumentException("Отсутствуют списки");
-        } else if (num > userLists.get(userId).size() - 1 || num < 0) {
+        } else if ((num > taskLists.size() - 1) || num < 0) {
             throw new IllegalArgumentException("Неверное значение");
         } else {
-            userLists.get(userId).remove(num);
+            taskLists.remove(num);
         }
     }
 
     public void rename(Long userId, int numberList, String newNameList) throws IllegalArgumentException {
-        if (userLists.get(userId) == null) {
+        List<TaskList> taskLists = userLists.get(userId);
+        if (taskLists == null) {
             throw new IllegalArgumentException("Отсутствуют списки");
-        } else if (numberList > userLists.get(userId).size() - 1 || numberList <= 0) {
+        } else if ((numberList > taskLists.size() - 1) || numberList <= 0) {
             throw new ArrayIndexOutOfBoundsException("Неверное значение");
         } else {
-            userLists.get(userId).get(numberList - 1).setTitle(newNameList);
+            taskLists.get(numberList).setTitle(newNameList);
         }
 
 
