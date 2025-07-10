@@ -1,7 +1,10 @@
 package org.github.dkovaleva.bot.data;
 
+import java.util.UUID;
+
 public class TaskList {
     private String title;
+    private String id = UUID.randomUUID().toString();
 //    private List<Task> tasks = new ArrayList<>();
 
     public String getTitle() {
@@ -12,7 +15,15 @@ public class TaskList {
         this.title = title;
     }
 
-//    public List<Task> getTasks() {
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    //    public List<Task> getTasks() {
 //        return tasks;
 //    }
 
