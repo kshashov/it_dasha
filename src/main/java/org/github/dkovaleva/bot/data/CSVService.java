@@ -49,7 +49,7 @@ public class CSVService {
                 }
             });
 
-            FileWriter fw = new FileWriter("src/main/resources/bot/" + filename);
+            FileWriter fw = new FileWriter("src/main/resources/bot/" + filename, false);
             fw.write(sw.toString());
             fw.flush();
             fw.close();
