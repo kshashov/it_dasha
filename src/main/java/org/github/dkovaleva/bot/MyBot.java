@@ -27,11 +27,11 @@ public class MyBot implements LongPollingSingleThreadUpdateConsumer {
     public static final String BOT_TOKEN = "5251321850:AAFuuXMwQzf9Hav9IxfwuRS49e_icrFkcK0";
     private TelegramClient telegramClient = new OkHttpTelegramClient(BOT_TOKEN);
     private final TasksRepository repository;
-    private final ListRepository listReponsitory;
+    private final ListRepository listRepository;
 
     public MyBot() {
         repository = new TasksRepository();
-        listReponsitory = new ListRepository();
+        listRepository = new ListRepository();
     }
 
     @Override
@@ -91,7 +91,7 @@ public class MyBot implements LongPollingSingleThreadUpdateConsumer {
         } else {
             TaskList newTaskList = new TaskList();
             newTaskList.setTitle(listArr[1]);
-            listReponsitory.addListTask(user.getId(), newTaskList);
+            listRepository.addListTask(user.getId(), newTaskList);
         }
         showLists(chatId, user);
     }
@@ -122,7 +122,7 @@ public class MyBot implements LongPollingSingleThreadUpdateConsumer {
             execute(new SendMessage(chatId, "Наименование и номер списка не указаны"));
         } else {
             try {
-                listReponsitory.rename(user.getId(), numTask, listArr[2]);
+                listRepository.rename(user.getId(), numTask, listArr[2]);
             } catch (ArrayIndexOutOfBoundsException exception) {
                 execute(new SendMessage(chatId, "Неверно указан номер списка"));
             }
@@ -145,7 +145,7 @@ public class MyBot implements LongPollingSingleThreadUpdateConsumer {
             execute(new SendMessage(chatId, "Номер списка не указан"));
         } else {
             try {
-                listReponsitory.deleteList(user.getId(), num - 1);
+                listRepository.deleteList(user.getId(), num - 1);
             } catch (IllegalArgumentException ex) {
                 execute(new SendMessage(chatId, "Неверное значение"));
             }
@@ -154,7 +154,7 @@ public class MyBot implements LongPollingSingleThreadUpdateConsumer {
     }
 
     private void showLists(String chatId, User user) {
-        List<TaskList> taskLists = listReponsitory.getLists(user.getId());
+        List<TaskList> taskLists = listRepository.getLists(user.getId());
         if (taskLists.isEmpty()) {
             // если списков нет
             execute(new SendMessage(chatId, "Отсутствуют списки задач"));

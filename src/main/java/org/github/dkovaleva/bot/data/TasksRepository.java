@@ -8,6 +8,27 @@ import java.util.Map;
 public class TasksRepository {
     private Map<Long, List<Task>> tasks = new HashMap<>();
 
+    public TasksRepository() {
+        List<List<String>> list = CSVService.loadCSV("listTask.csv");
+        if (list == null) {
+            return;
+        }
+
+        for (List<String> row : list) {
+            Long userID = Long.parseLong(row.get(0));
+            String textTask = row.get(1);
+
+            if (!tasks.containsKey(userID)) {
+                tasks.put(userID, new ArrayList<>());
+            }
+
+            Task t = new Task(textTask);
+            tasks.get(userID).add(t);
+
+        }
+    }
+
+
     public List<Task> getAll(Long userId) {
         if (!tasks.containsKey(userId)) {
             tasks.put(userId, new ArrayList<>());
@@ -28,6 +49,7 @@ public class TasksRepository {
         }
 
         taskList.remove(index);
+        save();
     }
 
     public void add(Long userId, Task task) {
@@ -36,7 +58,21 @@ public class TasksRepository {
         }
 
         tasks.get(userId).add(task);
+        save();
     }
 
+    private void save() {
+        List<List<String>> update = new ArrayList<>();
+
+        // для каждого пользователя
+        for (Long userID : tasks.keySet()) {
+            // теперь вызываем все задачи по пользователю
+            for (Task k : tasks.get(userID)) {
+                List<String> strings = List.of(userID.toString(), k.getText());
+                update.add(strings);
+            }
+        }
+        CSVService.createCSV("listTask.csv", update);
+    }
 
 }
