@@ -1,9 +1,6 @@
 package org.github.dkovaleva.bot.data;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ListRepository {
     private Map<Long, List<TaskList>> userLists = new HashMap<>();
@@ -73,6 +70,36 @@ public class ListRepository {
             taskLists.get(numberList).setTitle(newNameList);
             save();
         }
+    }
+
+    public void selectList(Long userId, int listIndex) {
+        List<TaskList> taskLists = userLists.get(userId);
+        if (taskLists == null) {
+            throw new IllegalArgumentException("Отсутствуют списки");
+        } else if ((listIndex > taskLists.size() - 1) || listIndex <= 0) {
+            throw new ArrayIndexOutOfBoundsException("Неверное значение");
+        } else {
+            taskLists.forEach(list -> list.setActive(false));
+            taskLists.get(listIndex).setActive(true);
+            save();
+        }
+    }
+
+    public String getSelectedListId(Long userId) {
+        if (userLists.get(userId) == null) {
+            return null;
+        }
+
+        Optional<TaskList> optionalId = userLists.get(userId).stream()
+                .filter(list -> list.isActive())
+                .findFirst();
+
+        if (optionalId.isPresent()) {
+            TaskList taskList = optionalId.get();
+            return taskList.getId();
+        }
+
+        return null;
     }
 
     private void save() {

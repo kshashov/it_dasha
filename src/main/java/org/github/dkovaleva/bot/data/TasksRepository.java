@@ -1,15 +1,20 @@
 package org.github.dkovaleva.bot.data;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class TasksRepository {
+    private final ListRepository listRepository;
     private Map<Long, List<Task>> tasks = new HashMap<>();
 
-    public TasksRepository() {
-        List<List<String>> list = CSVService.loadCSV("listTask.csv");
+    public TasksRepository(ListRepository listRepository) {
+        this.listRepository = listRepository;
+
+        List<List<String>> list = CSVService.loadCSV("tasks.csv");
         if (list == null) {
             return;
         }
@@ -34,11 +39,22 @@ public class TasksRepository {
             tasks.put(userId, new ArrayList<>());
         }
 
-        return new ArrayList<>(tasks.get(userId));
+        List<Task> activeTasks = getActiveTasks(userId);
+
+        return activeTasks;
+    }
+
+    @NotNull
+    private List<Task> getActiveTasks(Long userId) {
+        String listId = listRepository.getSelectedListId(userId);
+        List<Task> activeTasks = tasks.get(userId).stream()
+                .filter(task -> task.getListId().equals(listId))
+                .toList();
+        return activeTasks;
     }
 
     public void remove(Long userId, int index) throws IllegalArgumentException {
-        List<Task> taskList = tasks.get(userId);
+        List<Task> taskList = getActiveTasks(userId);
 
         if (taskList == null) {
             throw new IllegalArgumentException("Пусто");
@@ -57,6 +73,7 @@ public class TasksRepository {
             tasks.put(userId, new ArrayList<>());
         }
 
+        task.setListId(listRepository.getSelectedListId(userId));
         tasks.get(userId).add(task);
         save();
     }
@@ -72,7 +89,7 @@ public class TasksRepository {
                 update.add(strings);
             }
         }
-        CSVService.createCSV("listTask.csv", update);
+        CSVService.createCSV("tasks.csv", update);
     }
 
 }

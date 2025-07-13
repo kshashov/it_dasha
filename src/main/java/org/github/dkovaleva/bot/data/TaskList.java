@@ -5,6 +5,7 @@ import java.util.UUID;
 public class TaskList {
     private String title;
     private String id = UUID.randomUUID().toString();
+    private boolean isActive;
 //    private List<Task> tasks = new ArrayList<>();
 
     public String getTitle() {
@@ -21,6 +22,14 @@ public class TaskList {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
     //    public List<Task> getTasks() {

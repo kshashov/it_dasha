@@ -30,8 +30,8 @@ public class MyBot implements LongPollingSingleThreadUpdateConsumer {
     private final ListRepository listRepository;
 
     public MyBot() {
-        repository = new TasksRepository();
         listRepository = new ListRepository();
+        repository = new TasksRepository(listRepository);
     }
 
     @Override
@@ -64,6 +64,8 @@ public class MyBot implements LongPollingSingleThreadUpdateConsumer {
                 deleteList(chatId, user, text);
             } else if (text.startsWith("/reList")) {
                 renameList(chatId, user, text);
+            } else if (text.startsWith("selList")) {
+                selectList(chatId, user, text);
             } else if (text.startsWith("/button")) {
                 SendMessage sendMessage = new SendMessage(chatId, "button");
                 InlineKeyboardButton huiButton = InlineKeyboardButton.builder()
@@ -79,6 +81,24 @@ public class MyBot implements LongPollingSingleThreadUpdateConsumer {
             if (update.getCallbackQuery().getData().equals("h")) {
                 execute(new SendMessage(update.getCallbackQuery().getMessage().getChatId().toString(), "hui"));
             }
+        }
+    }
+
+    private void selectList(String chatId, User user, String text) {
+        String[] listArr = text.split(" ", 2);
+
+        if (listArr.length == 1) {
+            execute(new SendMessage(chatId, "Номер списка не указан"));
+        } else {
+            int listIndex;
+            try {
+                listIndex = Integer.parseInt(listArr[1]) - 1;
+            } catch (NumberFormatException exception) {
+                execute(new SendMessage(chatId, "Неверно указан номер списка"));
+                return;
+            }
+
+            listRepository.selectList(user.getId(), listIndex);
         }
     }
 
