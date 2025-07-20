@@ -3,10 +3,20 @@ package org.github.dkovaleva.bot.data;
 import java.util.UUID;
 
 public class TaskList {
+    private Long userId;
     private String title;
-    private String id = UUID.randomUUID().toString();
+    private UUID id = UUID.randomUUID();
     private boolean isActive;
 //    private List<Task> tasks = new ArrayList<>();
+
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 
     public String getTitle() {
         return title;
@@ -16,11 +26,11 @@ public class TaskList {
         this.title = title;
     }
 
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

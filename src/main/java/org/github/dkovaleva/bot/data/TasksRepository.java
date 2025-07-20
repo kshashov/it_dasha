@@ -8,29 +8,10 @@ import java.util.List;
 import java.util.Map;
 
 public class TasksRepository {
-    private final ListRepository listRepository;
     private Map<Long, List<Task>> tasks = new HashMap<>();
 
     public TasksRepository(ListRepository listRepository) {
-        this.listRepository = listRepository;
 
-        List<List<String>> list = CSVService.loadCSV("tasks.csv");
-        if (list == null) {
-            return;
-        }
-
-        for (List<String> row : list) {
-            Long userID = Long.parseLong(row.get(0));
-            String textTask = row.get(1);
-
-            if (!tasks.containsKey(userID)) {
-                tasks.put(userID, new ArrayList<>());
-            }
-
-            Task t = new Task(textTask);
-            tasks.get(userID).add(t);
-
-        }
     }
 
 
@@ -46,9 +27,9 @@ public class TasksRepository {
 
     @NotNull
     private List<Task> getActiveTasks(Long userId) {
-        String listId = listRepository.getSelectedListId(userId);
+//        String listId = listRepository.getSelectedListId(userId);
         List<Task> activeTasks = tasks.get(userId).stream()
-                .filter(task -> task.getListId().equals(listId))
+                .filter(task -> task.getListId().equals(null))
                 .toList();
         return activeTasks;
     }
@@ -73,7 +54,7 @@ public class TasksRepository {
             tasks.put(userId, new ArrayList<>());
         }
 
-        task.setListId(listRepository.getSelectedListId(userId));
+//        task.setListId(listRepository.getSelectedListId(userId));
         tasks.get(userId).add(task);
         save();
     }

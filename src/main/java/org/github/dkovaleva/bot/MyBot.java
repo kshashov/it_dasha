@@ -110,8 +110,10 @@ public class MyBot implements LongPollingSingleThreadUpdateConsumer {
             execute(new SendMessage(chatId, "Наименование списка не указано"));
         } else {
             TaskList newTaskList = new TaskList();
+            newTaskList.setUserId(user.getId());
             newTaskList.setTitle(listArr[1]);
-            listRepository.addListTask(user.getId(), newTaskList);
+            newTaskList.setActive(false);
+            listRepository.addListTask(newTaskList);
         }
         showLists(chatId, user);
     }
@@ -228,14 +230,15 @@ public class MyBot implements LongPollingSingleThreadUpdateConsumer {
         if (todoArr.length == 1) {
             execute(new SendMessage(chatId, "Текст задачи не указан"));
         } else {
-            Task task = new Task(todoArr[1]);
+            Task task = new Task();
+            task.setText(todoArr[1]);
             repository.add(user.getId(), task);
             showTasks(chatId, user);
         }
     }
 
     private void showTasks(String chatId, User user) {
-        List<Task> taskList = repository.getAll(user.getId());
+        List<Task> taskList = listRepository.getTasksForActiveList(user.getId());
         if (taskList.isEmpty()) {
             // если список пуст
             execute(new SendMessage(chatId, "Нет задач"));
