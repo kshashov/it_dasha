@@ -64,7 +64,7 @@ public class MyBot implements LongPollingSingleThreadUpdateConsumer {
                 deleteList(chatId, user, text);
             } else if (text.startsWith("/reList")) {
                 renameList(chatId, user, text);
-            } else if (text.startsWith("selList")) {
+            } else if (text.startsWith("/selList")) {
                 selectList(chatId, user, text);
             } else if (text.startsWith("/button")) {
                 SendMessage sendMessage = new SendMessage(chatId, "button");
@@ -232,7 +232,7 @@ public class MyBot implements LongPollingSingleThreadUpdateConsumer {
         } else {
             Task task = new Task();
             task.setText(todoArr[1]);
-            repository.add(user.getId(), task);
+            listRepository.addTask(user.getId(), task.getText());
             showTasks(chatId, user);
         }
     }

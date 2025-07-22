@@ -9,6 +9,28 @@ public class ListRepository {
     public ListRepository() {
     }
 
+    public void addTask(Long userid, String task) {
+        try (Connection con = DriverManager.getConnection("jdbc:postgresql://77.221.141.195:5432/postgres", "postgres", "")) {
+            try (PreparedStatement stmt = con.prepareStatement("SELECT tl.id from todobot.tasklist tl " +
+                    //"left join todobot.task t on t.tasklistid = tl.id " +
+                    "where tl.isactive = true and tl.userid = ? ")) {
+                stmt.setLong(1, userid);
+                ResultSet rs = stmt.executeQuery();
+                while (rs.next()) {
+                    String listId = rs.getString("id");
+                    try (PreparedStatement stmt2 = con.prepareStatement("INSERT INTO todobot.task (tasklistid, text) " +
+                            "VALUES (?, ?)")) {
+                        stmt2.setObject(1, UUID.fromString(listId));
+                        stmt2.setString(2, task);
+                        stmt2.execute();
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void addListTask(TaskList taskList) {
         try (Connection con = DriverManager.getConnection("jdbc:postgresql://77.221.141.195:5432/postgres", "postgres", "")) {
             // use con here
