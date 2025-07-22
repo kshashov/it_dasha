@@ -3,7 +3,6 @@ package org.github.dkovaleva.bot;
 import org.github.dkovaleva.bot.data.ListRepository;
 import org.github.dkovaleva.bot.data.Task;
 import org.github.dkovaleva.bot.data.TaskList;
-import org.github.dkovaleva.bot.data.TasksRepository;
 import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
 import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateConsumer;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethod;
@@ -26,12 +25,10 @@ import java.util.List;
 public class MyBot implements LongPollingSingleThreadUpdateConsumer {
     public static final String BOT_TOKEN = "5251321850:AAFuuXMwQzf9Hav9IxfwuRS49e_icrFkcK0";
     private TelegramClient telegramClient = new OkHttpTelegramClient(BOT_TOKEN);
-    private final TasksRepository repository;
     private final ListRepository listRepository;
 
     public MyBot() {
         listRepository = new ListRepository();
-        repository = new TasksRepository(listRepository);
     }
 
     @Override
@@ -213,7 +210,7 @@ public class MyBot implements LongPollingSingleThreadUpdateConsumer {
         } else {
             // удаляем из списка по номеру
             try {
-                repository.remove(user.getId(), i - 1);
+//                repository.remove(user.getId(), i - 1);
             } catch (IllegalArgumentException ex) {
                 execute(new SendMessage(chatId, "Отсутствует задача с указанным номером"));
                 return;
