@@ -182,7 +182,9 @@ public class MyBot implements LongPollingSingleThreadUpdateConsumer {
             String allList = "";
             int i = 1;
             for (TaskList listi : taskLists) {
-                allList += i + " " + listi.getTitle() + "\n";
+                allList += i + " " + listi.getTitle();
+                allList += listi.isActive() == true ? " - is Active" : "";
+                allList += "\n";
                 i++;
             }
 
@@ -210,7 +212,7 @@ public class MyBot implements LongPollingSingleThreadUpdateConsumer {
         } else {
             // удаляем из списка по номеру
             try {
-//                repository.remove(user.getId(), i - 1);
+                listRepository.remove(user.getId(), i);
             } catch (IllegalArgumentException ex) {
                 execute(new SendMessage(chatId, "Отсутствует задача с указанным номером"));
                 return;

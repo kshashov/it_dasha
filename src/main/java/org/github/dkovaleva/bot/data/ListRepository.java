@@ -10,6 +10,39 @@ public class ListRepository {
     public ListRepository() {
     }
 
+    public void remove(Long userID, int taskNum) {
+        try (Connection con = DriverManager.getConnection("jdbc:postgresql://77.221.141.195:5432/postgres", "postgres", "")) {
+            try (PreparedStatement stmt = con.prepareStatement(
+                    "SELECT id FROM todobot.tasklist tl " +
+                            "WHERE tl.isactive = true and tl.userid = ? ")) {
+                stmt.setLong(1, userID);
+                ResultSet res = stmt.executeQuery();
+                while (res.next()) {
+                    String listID = res.getString("id");
+                    try (PreparedStatement stmt2 = con.prepareStatement(
+
+
+                            "DELETE from todobot.task t " +
+                                    "WHERE t.tasklistid = ? " +
+                                    "AND t.id = " +
+                                    "(SELECT t.id FROM todobot.task t " +
+                                    "JOIN todobot.tasklist tl ON tl.id=t.tasklistid " +
+                                    "ORDER BY text " +
+                                    "LIMIT 1 OFFSET ?)"
+                    )) {
+                        stmt2.setString(1, listID);
+                        stmt2.setInt(2, taskNum);
+                        stmt2.execute();
+                    }
+
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void addTask(Long userid, String task) {
         try (Connection con = DriverManager.getConnection("jdbc:postgresql://77.221.141.195:5432/postgres", "postgres", "")) {
             // TODO ОСТАВИТЬ вариант с двумя запросами
@@ -28,10 +61,12 @@ public class ListRepository {
 //                }
 //            }
 
+            //git review
+
             try (PreparedStatement stmt2 = con.prepareStatement(
                     "INSERT INTO todobot.task (tasklistid, text) " +
                             "SELECT tl.id, ? from todobot.tasklist tl " +
-                    "where tl.isactive = true and tl.userid = ? ")) {
+                            "where tl.isactive = true and tl.userid = ? ")) {
                 stmt2.setString(1, task);
                 stmt2.setLong(2, userid);
 
