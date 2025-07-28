@@ -146,16 +146,29 @@ public class ListRepository {
 
     public void selectList(Long userId, int index) {
         try (Connection con = DriverManager.getConnection("jdbc:postgresql://77.221.141.195:5432/postgres", "postgres", "")) {
+            con.setAutoCommit(false);
+
             try (PreparedStatement stmt = con.prepareStatement("UPDATE todobot.tasklist SET isActive = false WHERE userid = ?")) {
                 stmt.setLong(1, userId);
                 boolean rs = stmt.execute();
+            } catch (SQLException e) {
+                con.rollback();
+                throw new RuntimeException(e);
             }
+
             try (PreparedStatement stmt = con.prepareStatement("UPDATE todobot.tasklist SET isActive = true " +
                     "WHERE id = (SELECT id from todobot.tasklist WHERE userid = ? ORDER BY name OFFSET ? LIMIT 1)")) {
                 stmt.setLong(1, userId);
                 stmt.setInt(2, index);
                 boolean rs = stmt.execute();
+            } catch (SQLException e) {
+                con.rollback();
+                throw new RuntimeException(e);
+            } finally {
+                con.setAutoCommit(true);
             }
+
+            con.commit();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
