@@ -1,5 +1,6 @@
 package org.github.dkovaleva.bot;
 
+import org.github.dkovaleva.HttpClientTest;
 import org.github.dkovaleva.bot.data.ListRepository;
 import org.github.dkovaleva.bot.data.Task;
 import org.github.dkovaleva.bot.data.TaskList;
@@ -7,6 +8,8 @@ import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
 import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateConsumer;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -78,6 +81,21 @@ public class MyBot implements LongPollingSingleThreadUpdateConsumer {
                         .build();
                 sendMessage.setReplyMarkup(new InlineKeyboardMarkup(List.of(new InlineKeyboardRow(huiButton))));
                 execute(sendMessage);
+            } else if (text.startsWith("/waifu")) {
+                String[] listArr = text.split(" ", 3);
+
+                HttpClientTest.Waifu waifu = HttpClientTest.getWaifu(listArr[1], listArr[2]);
+
+                SendPhoto sendPhoto = SendPhoto.builder()
+                        .chatId(chatId)
+                        .caption(waifu.name.first + " " + waifu.name.last)
+                        .photo(new InputFile(waifu.image.large))
+                        .build();
+                try {
+                    telegramClient.execute(sendPhoto);
+                } catch (TelegramApiException e) {
+                    throw new RuntimeException(e);
+                }
             }
 
             // TODO Dasha
