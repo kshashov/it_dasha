@@ -33,7 +33,7 @@ public class HttpClientTest {
             Waifu waifu = gson.fromJson(response.body(), Waifu.class);
             System.out.println(waifu.name.first + " " + waifu.media.nodes.get(0).synonyms.get(0));
 
-            //jsonElementExample(response);
+//            jsonElementExample(response);
 
             return waifu;
 
