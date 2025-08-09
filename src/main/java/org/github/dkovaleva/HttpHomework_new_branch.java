@@ -1,36 +1,43 @@
 package org.github.dkovaleva;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.google.gson.*;
 
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.HashMap;
 
-public class HttpHomeworkFruit2_0 {
+public class HttpHomework_new_branch {
     public static void main(String[] args) {
-        fruit("strawberry");
-
+        conversion(1, "EUR");
 
     }
 
 
-    public static void fruit(String fruitName) {
+    public static void conversion(int money, String currency) {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://www.fruityvice.com/api/fruit/" + fruitName))
+                .uri(URI.create("https://www.cbr-xml-daily.ru/latest.js"))
                 .GET()
                 .build();
 
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println(response.body());
+//            System.out.println(response.body());
 
             Gson gson = new GsonBuilder().create();
-            Fruit fruit = gson.fromJson(response.body(), Fruit.class);
-            System.out.println("id = " + fruit.id + "\n" + "name = " + fruit.name + "\n" + "calories/ protein / sugar = " + fruit.nutritions.calories + "/ " + fruit.nutritions.protein + "/ " + fruit.nutritions.sugar + "/ ");
+            Currency computation = gson.fromJson(response.body(), Currency.class);
+            Double c = computation.rates.get(currency);
+
+            System.out.println("Конвертация " + money + " рубл. в валюту " + currency + " равна " + money * c);
+
+            JsonElement jsonElement = JsonParser.parseString(response.body());
+            JsonObject jsonObject = jsonElement.getAsJsonObject();
+
+            Double ccurrency = jsonObject.get("rates").getAsJsonObject().get(currency).getAsDouble();
+            System.out.println("Конвертация " + money + " рубл. в валюту " + currency + " равна " + money * ccurrency);
 
 
         } catch (IOException e) {
@@ -41,16 +48,10 @@ public class HttpHomeworkFruit2_0 {
 //        System.out.println(response.statusCode());
     }
 
-    public static class Fruit {
-        Nutritions nutritions;
-        String name;
-        String id;
-
-        public static class Nutritions {
-            String sugar;
-            String calories;
-            String protein;
-        }
+    public static class Currency {
+        String date;
+        String base;
+        HashMap<String, Double> rates;
     }
 }
 
